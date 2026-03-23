@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultArea = document.getElementById('resultArea');
     const loading = document.getElementById('loading');
     const outputContent = document.getElementById('outputContent');
-    
+
     const outTitle = document.getElementById('outTitle');
     const outDesc = document.getElementById('outDesc');
     const outReqs = document.getElementById('outReqs');
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const parseUserIntent = (text) => {
         const lowerText = text.toLowerCase();
-        
-        // 1. Dicionário de intenções com palavras-chave
+
+        // 1. Dicionário de intenções com palavras-chaves
         const intentKeywords = {
             auth: ['login', 'autenticação', 'autenticacao', 'jwt', 'senha', 'usuário', 'usuario', 'auth', 'logar'],
             payment: ['pagamento', 'checkout', 'carrinho', 'stripe', 'compra', 'cartão', 'cartao', 'pix'],
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ];
                 tech = ["Node.js + Express / NestJS", "JWT", "Bcrypt", "PostgreSQL", "Redis (Rate Limit)"];
                 break;
-                
+
             case 'payment':
                 title = "Módulo de Pagamentos e Checkout";
                 desc = `Fluxo financeiro automatizado para: "${shortUserText}". O objetivo principal é processar valores com segurança, evitar cobranças indevidas e acompanhar o gerenciamento de estados do pedido com total assertividade.`;
@@ -142,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btn.addEventListener('click', () => {
         const text = prompt.value.trim();
-        
-        if(!text) {
+
+        if (!text) {
             prompt.focus();
             prompt.classList.add('ring-2', 'ring-red-400');
             setTimeout(() => prompt.classList.remove('ring-2', 'ring-red-400'), 1000);
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         btn.disabled = true;
         btn.innerHTML = 'Processando...';
-        
+
         resultArea.classList.remove('hidden');
         outputContent.classList.add('hidden');
         loading.classList.remove('hidden');
@@ -161,10 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Simular delay do processamento da IA
         setTimeout(() => {
             const data = parseUserIntent(text);
-            
+
             outTitle.textContent = data.title;
             outDesc.textContent = data.desc;
-            
+
             // Render Requisitos
             outReqs.innerHTML = '';
             data.reqs.forEach(req => {
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     .replace(/(Dado que|Given)/g, '<span class="text-secondary font-bold">$1</span>')
                     .replace(/(Quando|When)/g, '<span class="text-accent font-bold">$1</span>')
                     .replace(/(Então|Then)/g, '<span class="text-blue-400 font-bold">$1</span>');
-                    
+
                 outAc.innerHTML += `<li class="flex gap-2 items-start mt-2">
                     <svg class="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                     <span>${formatted}</span>
@@ -197,16 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
             loading.style.display = 'none';
             loading.classList.add('hidden');
             outputContent.classList.remove('hidden');
-            
+
             btn.disabled = false;
             btn.innerHTML = `
                 <span>Regerar especificação</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
             `;
-            
+
         }, 1800); // 1.8s
     });
-    
+
     // Tratamento form inscrição CTA
     document.getElementById('waitlistForm').addEventListener('submit', (e) => {
         e.preventDefault();

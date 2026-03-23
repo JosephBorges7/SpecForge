@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpecForge - Transforme Requisitos em Código</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#10b981',
+                        accent: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-secondary selection:text-white">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold text-xl">S</div>
+                <span class="font-bold text-xl text-primary tracking-tight">SpecForge</span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#problema" class="text-sm font-medium text-gray-600 hover:text-primary transition">O Problema</a>
+                <a href="#como-funciona" class="text-sm font-medium text-gray-600 hover:text-primary transition">Como Funciona</a>
+                <a href="#demonstracao" class="text-sm font-medium text-gray-600 hover:text-primary transition">Testar</a>
+            </nav>
+            <div>
+                <a href="#demonstracao" class="bg-primary hover:bg-slate-800 text-white px-5 py-2 rounded-full text-sm font-medium transition shadow-sm hover:shadow-md">Testar agora</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-accent text-sm font-medium mb-6">
+            <span class="flex h-2 w-2 rounded-full bg-accent"></span>
+            Revolucionando o Spec Driven Development
+        </div>
+        <h1 class="text-5xl md:text-6xl font-extrabold text-primary tracking-tight mb-6 leading-tight">
+            Transforme requisitos vagos em <br class="hidden md:block"/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">especificações prontas para código</span>
+        </h1>
+        <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+            Acelere seu desenvolvimento. Nossa IA analisa suas ideias e gera especificações técnicas estruturadas em segundos.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="#demonstracao" class="bg-secondary hover:bg-emerald-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2">
+                Criar Minha Primeira Spec
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </a>
+            <a href="#como-funciona" class="text-gray-600 hover:text-primary font-medium px-8 py-4 rounded-full transition hover:bg-gray-100 flex items-center gap-2">
+                Entenda o fluxo
+            </a>
+        </div>
+    </section>
+
+    <!-- Problema -->
+    <section id="problema" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-primary mb-6">Desenvolver sem especificação é construir no escuro.</h2>
+                    <ul class="space-y-6">
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Requisitos mal definidos</h3>
+                                <p class="text-gray-600 mt-1">Desenvolvedores perdem horas tentando adivinhar o que foi pedido em descrições ambíguas.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Retrabalho constante</h3>
+                                <p class="text-gray-600 mt-1">Funcionalidades precisam ser refeitas porque o esperado não estava alinhado desde o princípio.</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">Perda de tempo</h3>
+                                <p class="text-gray-600 mt-1">Reuniões intermináveis de alinhamento que poderiam ser resolvidas com um documento claro.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 shadow-inner relative overflow-hidden group hover:border-accent/30 transition duration-500">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-400 to-orange-400"></div>
+                    <div class="text-sm text-gray-500 font-mono mb-4 border-b pb-2">Ticket #402 - Requisito Original vago</div>
+                    <p class="text-gray-700 italic border-l-4 border-gray-300 pl-4">"Precisamos de uma tela para o usuário entrar no sistema. Tem que ser seguro e moderno. Usar token."</p>
+                    <div class="mt-6 flex items-center justify-center">
+                        <span class="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full">Status: Confuso</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solução -->
+    <section id="como-funciona" class="py-20 bg-primary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">A solução: SDD automatizado</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Em apenas 3 passos, a SpecForge organiza os pensamentos da sua equipe em especificações perfeitas.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 relative">
+                <!-- Conector -->
+                <div class="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-0.5 bg-gray-700 -z-0"></div>
+                
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 relative z-10 text-center hover:-translate-y-2 transition duration-300">
+                    <div class="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center text-2xl font-bold text-accent mx-auto mb-6 shadow-lg">1</div>
+                    <h3 class="text-xl font-semibold mb-3">Você insere a ideia</h3>
+                    <p class="text-gray-400">Escreva o requisito do seu jeito, mesmo que incompleto. Cole de anotações soltas ou emails.</p>
+                </div>
+                
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 relative z-10 text-center hover:-translate-y-2 transition duration-300">
+                    <div class="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center text-2xl font-bold text-accent mx-auto mb-6 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 animate-pulse text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">A IA Estrutura</h3>
+                    <p class="text-gray-400">Nossa inteligência artificial analisa, identifica lacunas e aplica as melhores práticas de engenharia de software.</p>
+                </div>
+                
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 relative z-10 text-center hover:-translate-y-2 transition duration-300">
+                    <div class="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center text-2xl font-bold text-accent mx-auto mb-6 shadow-lg">3</div>
+                    <h3 class="text-xl font-semibold mb-3">Receba a Spec</h3>
+                    <p class="text-gray-400">Uma especificação completa é gerada com regras de negócio claras e critérios de aceitação.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MVP Interativo -->
+    <section id="demonstracao" class="py-24 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">Veja a mágica acontecer</h2>
+                <p class="text-gray-600">Escreva um requisito simples e veja como a SpecForge o transforma em uma especificação técnica profissional.</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                <div class="p-6 md:p-8">
+                    <label for="prompt" class="block text-sm font-semibold text-gray-700 mb-2">Descreva a funcionalidade que você quer criar:</label>
+                    <textarea id="prompt" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:border-accent transition resize-none font-mono text-sm shadow-sm" placeholder="Ex: Criar sistema de login com autenticação JWT."></textarea>
+                    
+                    <div class="mt-6 flex justify-end">
+                        <button id="generateBtn" class="bg-primary hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-medium transition shadow-md flex items-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed">
+                            <span>Gerar especificação</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Output Area -->
+                <div id="resultArea" class="bg-slate-900 text-gray-300 p-6 md:p-8 hidden border-t border-slate-800">
+                    <div id="loading" class="hidden flex-col items-center justify-center py-10">
+                        <svg class="animate-spin h-10 w-10 text-secondary mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <p class="font-mono text-secondary typing-loader">Analisando requisitos e gerando estrutura</p>
+                    </div>
+                    
+                    <div id="outputContent" class="hidden fade-in space-y-6 transform transition-all duration-500 origin-top">
+                        <div class="flex items-center justify-between border-b border-slate-700 pb-4 mb-6">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                Especificação Técnica Gerada
+                            </h3>
+                            <button class="text-xs border border-slate-600 hover:bg-slate-800 px-3 py-1 rounded transition text-gray-400">Copiar Markdown</button>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-accent font-semibold mb-1 uppercase text-sm tracking-wider flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                Título
+                            </h4>
+                            <p id="outTitle" class="text-lg text-white font-medium"></p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-accent font-semibold mb-1 uppercase text-sm tracking-wider flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                                Descrição
+                            </h4>
+                            <p id="outDesc" class="leading-relaxed"></p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-accent font-semibold mb-2 uppercase text-sm tracking-wider flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+                                Requisitos
+                            </h4>
+                            <ul id="outReqs" class="list-disc list-inside space-y-1 text-gray-400 marker:text-slate-600"></ul>
+                        </div>
+                        
+                        <div class="bg-black/20 p-4 rounded-lg border border-slate-800">
+                            <h4 class="text-secondary font-semibold mb-2 uppercase text-sm tracking-wider flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                Critérios de Aceitação
+                            </h4>
+                            <ul id="outAc" class="space-y-2 text-sm text-gray-300"></ul>
+                        </div>
+
+                        <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-700/50">
+                            <h4 class="text-blue-400 font-semibold mb-3 uppercase text-sm tracking-wider flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                                Tecnologias Sugeridas
+                            </h4>
+                            <ul id="outTech" class="flex flex-wrap gap-2 text-sm text-gray-300"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proposta de Valor / Comparação -->
+    <section class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-primary mb-12">ANTES e DEPOIS da SpecForge</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="p-8 rounded-2xl bg-gray-50 border border-gray-200">
+                    <h3 class="text-xl font-bold text-gray-500 mb-6 uppercase tracking-wider">ANTES</h3>
+                    <ul class="space-y-4 text-left">
+                        <li class="flex gap-3 text-gray-600">
+                            <svg class="h-6 w-6 text-red-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            <span>Confusão e interpretações erradas de features.</span>
+                        </li>
+                        <li class="flex gap-3 text-gray-600">
+                            <svg class="h-6 w-6 text-red-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            <span>Retrabalho devido a requisitos que não foram mapeados.</span>
+                        </li>
+                        <li class="flex gap-3 text-gray-600">
+                            <svg class="h-6 w-6 text-red-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            <span>Perda de tempo em reuniões de alinhamento intermináveis.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="p-8 rounded-2xl bg-primary shadow-xl border border-primary relative overflow-hidden transform md:-translate-y-4">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-accent rounded-full blur-3xl opacity-20"></div>
+                    <h3 class="text-xl font-bold text-secondary mb-6 uppercase tracking-wider">DEPOIS</h3>
+                    <ul class="space-y-4 text-left">
+                        <li class="flex gap-3 text-gray-200">
+                            <svg class="h-6 w-6 text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span>Clareza total sobre o que precisa ser desenvolvido e testado.</span>
+                        </li>
+                        <li class="flex gap-3 text-gray-200">
+                            <svg class="h-6 w-6 text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span>Estrutura padronizada para facilitar a integração do time.</span>
+                        </li>
+                        <li class="flex gap-3 text-gray-200">
+                            <svg class="h-6 w-6 text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span>Produtividade multiplicada, codificando de forma muito mais rápida.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-24 bg-gradient-to-br from-primary to-slate-800 text-white text-center relative overflow-hidden">
+        <div class="absolute inset-0 pattern-dots opacity-10"></div>
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="text-4xl font-bold mb-6">Pronto para acelerar seu desenvolvimento?</h2>
+            <p class="text-xl text-gray-300 mb-10">Cadastre-se para experimentar o futuro do desenvolvimento de software.</p>
+            
+            <form id="waitlistForm" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+                <input type="email" placeholder="Seu melhor email (opcional)" class="flex-1 px-5 py-4 rounded-lg text-gray-900 border-none focus:ring-2 focus:ring-secondary focus:outline-none placeholder-gray-500">
+                <button type="submit" class="bg-secondary hover:bg-emerald-600 text-white px-8 py-4 rounded-lg font-bold transition shadow-lg whitespace-nowrap">Quero testar a SpecForge</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 py-12 border-t border-slate-800 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <div class="w-6 h-6 rounded bg-primary border text-xs border-slate-700 flex items-center justify-center text-white font-bold">S</div>
+                <span class="font-bold text-lg text-white tracking-tight">SpecForge</span>
+            </div>
+            <p class="text-slate-500 text-sm">© 2026 SpecForge. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

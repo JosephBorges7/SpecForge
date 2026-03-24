@@ -8,8 +8,80 @@ document.addEventListener('DOMContentLoaded', () => {
     const outTitle = document.getElementById('outTitle');
     const outDesc = document.getElementById('outDesc');
     const outReqs = document.getElementById('outReqs');
-    const outAc = document.getElementById('outAc');
     const outTech = document.getElementById('outTech');
+
+    // Paywall Elements & State
+    const usageCounter = document.getElementById('usageCounter');
+    const paywallModal = document.getElementById('paywallModal');
+    const paywallBackdrop = document.getElementById('paywallBackdrop');
+    const paywallContent = document.getElementById('paywallContent');
+    const upgradeBtn = document.getElementById('upgradeBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const toastSuccess = document.getElementById('toastSuccess');
+    const closeToastBtn = document.getElementById('closeToastBtn');
+
+    const MAX_FREE_USES = 2;
+    let usageCount = parseInt(localStorage.getItem('specforge_usage') || '0');
+    let isPremium = localStorage.getItem('specforge_premium') === 'true';
+
+    const updateCounterDisplay = () => {
+        if (!usageCounter) return;
+        if (isPremium) {
+            usageCounter.innerHTML = '<span class="text-emerald-600 flex items-center gap-1 font-bold"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Premium Ativado</span>';
+            usageCounter.classList.remove('text-gray-500', 'text-red-500');
+        } else {
+            const left = Math.max(0, MAX_FREE_USES - usageCount);
+            usageCounter.textContent = `Você tem ${left} uso${left !== 1 ? 's' : ''} gratuito${left !== 1 ? 's' : ''}`;
+            if (left === 0) {
+                usageCounter.classList.replace('text-gray-500', 'text-red-500');
+            }
+        }
+    };
+
+    updateCounterDisplay();
+
+    const openPaywall = () => {
+        if(!paywallModal) return;
+        paywallModal.classList.remove('hidden');
+        setTimeout(() => {
+            paywallBackdrop.classList.remove('opacity-0');
+            paywallContent.classList.remove('opacity-0', 'translate-y-8', 'sm:translate-y-0', 'sm:scale-95');
+        }, 10);
+    };
+
+    const closePaywall = () => {
+        paywallBackdrop.classList.add('opacity-0');
+        paywallContent.classList.add('opacity-0', 'translate-y-8', 'sm:translate-y-0', 'sm:scale-95');
+        setTimeout(() => {
+            paywallModal.classList.add('hidden');
+        }, 300);
+    };
+
+    const showToast = () => {
+        toastSuccess.classList.remove('translate-x-full', 'opacity-0');
+        setTimeout(() => {
+            closeToast();
+        }, 4000);
+    };
+
+    const closeToast = () => {
+        toastSuccess.classList.add('translate-x-full', 'opacity-0');
+    };
+
+    if (upgradeBtn) {
+        upgradeBtn.addEventListener('click', () => {
+            isPremium = true;
+            localStorage.setItem('specforge_premium', 'true');
+            updateCounterDisplay();
+            closePaywall();
+            setTimeout(() => {
+                showToast();
+            }, 300);
+        });
+    }
+
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closePaywall);
+    if (closeToastBtn) closeToastBtn.addEventListener('click', closeToast);
 
     const parseUserIntent = (text) => {
         const lowerText = text.toLowerCase();
@@ -148,6 +220,19 @@ document.addEventListener('DOMContentLoaded', () => {
             prompt.classList.add('ring-2', 'ring-red-400');
             setTimeout(() => prompt.classList.remove('ring-2', 'ring-red-400'), 1000);
             return;
+        }
+
+        // Paywall Check
+        if (!isPremium && usageCount >= MAX_FREE_USES) {
+            openPaywall();
+            return;
+        }
+
+        // Incrementar uso se gratuito
+        if (!isPremium) {
+            usageCount++;
+            localStorage.setItem('specforge_usage', usageCount);
+            updateCounterDisplay();
         }
 
         btn.disabled = true;

@@ -163,7 +163,8 @@
                     <label for="prompt" class="block text-sm font-semibold text-gray-700 mb-2">Descreva a funcionalidade que você quer criar:</label>
                     <textarea id="prompt" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:border-accent transition resize-none font-mono text-sm shadow-sm" placeholder="Ex: Criar sistema de login com autenticação JWT."></textarea>
                     
-                    <div class="mt-6 flex justify-end">
+                    <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <p id="usageCounter" class="text-sm font-medium text-gray-500"></p>
                         <button id="generateBtn" class="bg-primary hover:bg-slate-800 text-white px-6 py-3 rounded-lg font-medium transition shadow-md flex items-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed">
                             <span>Gerar especificação</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:translate-x-1 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -302,8 +303,68 @@
                 <div class="w-6 h-6 rounded bg-primary border text-xs border-slate-700 flex items-center justify-center text-white font-bold">S</div>
                 <span class="font-bold text-lg text-white tracking-tight">SpecForge</span>
             </div>
-            <p class="text-slate-500 text-sm">© 2026 SpecForge. Todos os direitos reservados.</p>
+            <p class="text-slate-500 text-sm">&copy; 2026 SpecForge. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <!-- Paywall Modal -->
+    <div id="paywallModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity opacity-0 duration-300" id="paywallBackdrop"></div>
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div id="paywallContent" class="relative bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all opacity-0 translate-y-8 sm:translate-y-0 sm:scale-95 sm:max-w-lg w-full border border-gray-100 duration-300">
+                <div class="bg-gradient-to-br from-primary to-slate-800 px-6 py-8 text-center relative overflow-hidden">
+                    <div class="absolute -right-6 -top-6 w-24 h-24 bg-accent/20 rounded-full blur-xl"></div>
+                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-400/20 mb-4 relative z-10">
+                        <svg class="h-8 w-8 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl leading-6 font-bold text-white mb-2 relative z-10">Você atingiu o limite gratuito</h3>
+                    <p class="text-sm text-gray-300 px-4 relative z-10">Para continuar gerando especificações com a SpecForge, faça upgrade para o plano premium.</p>
+                </div>
+                <div class="px-6 py-6 bg-white">
+                    <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Benefícios do Premium:</h4>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start">
+                            <svg class="h-5 w-5 text-emerald-500 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="text-sm text-gray-600">Geração <strong>ilimitada</strong> de specs</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="h-5 w-5 text-emerald-500 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="text-sm text-gray-600">Especificações mais detalhadas e avançadas</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="h-5 w-5 text-emerald-500 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <span class="text-sm text-gray-600">Sugestão de arquiteturas e tecnologias</span>
+                        </li>
+                    </ul>
+                    <div class="flex flex-col gap-3">
+                        <button id="upgradeBtn" type="button" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-lg shadow-accent/30 px-4 py-3 bg-accent text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent sm:text-sm transition-all hover:-translate-y-0.5">
+                            Fazer upgrade agora
+                        </button>
+                        <button id="closeModalBtn" type="button" class="w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-4 py-3 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:text-sm transition-all">
+                            Continuar com plano gratuito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Toast Notification -->
+    <div id="toastSuccess" class="fixed top-24 right-4 z-[110] transform transition-all duration-300 translate-x-full opacity-0">
+        <div class="bg-gray-900 shadow-xl rounded-lg p-4 max-w-sm w-full mx-auto flex items-center gap-3 border border-gray-800">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                <svg class="w-6 h-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-white">Plano Premium ativado</p>
+                <p class="text-xs text-gray-400 mt-0.5">Renovação mensal iniciada com sucesso.</p>
+            </div>
+            <button id="closeToastBtn" class="ml-auto text-gray-400 hover:text-white transition">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+    </div>
 </body>
 </html>

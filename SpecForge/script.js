@@ -80,6 +80,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Listeners for pricing section cards
+    const planUpgradeBtns = document.querySelectorAll('.plan-upgrade-btn');
+    planUpgradeBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            isPremium = true;
+            localStorage.setItem('specforge_premium', 'true');
+            updateCounterDisplay();
+            showToast();
+            btn.innerText = "Ativado ✔";
+            btn.classList.remove('hover:bg-blue-600', 'hover:-translate-y-0.5', 'hover:bg-gray-50', 'text-gray-700', 'bg-accent');
+            btn.classList.add('bg-emerald-500', 'text-white', 'cursor-not-allowed', 'opacity-90', 'border-emerald-500');
+        });
+    });
+
     if (closeModalBtn) closeModalBtn.addEventListener('click', closePaywall);
     if (closeToastBtn) closeToastBtn.addEventListener('click', closeToast);
 
@@ -305,4 +320,14 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.replace('bg-accent', 'bg-secondary');
         }, 3000);
     });
+
+    // Função auxiliar para resetar a simulação interativa
+    const resetDemoBtn = document.getElementById('resetDemoBtn');
+    if (resetDemoBtn) {
+        resetDemoBtn.addEventListener('click', () => {
+            localStorage.removeItem('specforge_usage');
+            localStorage.removeItem('specforge_premium');
+            window.location.reload();
+        });
+    }
 });

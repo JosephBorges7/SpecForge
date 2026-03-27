@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SpecForge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#10b981',
+                        accent: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="auth.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-secondary selection:text-white flex flex-col min-h-screen">
+    
+    <header class="fixed w-full top-0 bg-white/80 backdrop-blur-md z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition">
+                <div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold text-xl">S</div>
+                <span class="font-bold text-xl text-primary tracking-tight">SpecForge</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100 relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-accent rounded-full blur-3xl opacity-10 pointer-events-none"></div>
+            
+            <div class="text-center relative z-10">
+                <h2 class="text-3xl font-extrabold text-primary tracking-tight">Acesse sua conta</h2>
+                <p class="mt-2 text-sm text-gray-500">
+                    Transforme requisitos vagos em código com a SpecForge.
+                </p>
+            </div>
+            
+            <form id="loginForm" class="mt-8 space-y-6 relative z-10">
+                <div class="rounded-md space-y-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                        <input id="email" name="email" type="email" required class="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm shadow-sm transition" placeholder="dev@exemplo.com">
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                        <input id="password" name="password" type="password" required class="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm shadow-sm transition" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-primary hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <svg class="h-5 w-5 text-gray-400 group-hover:text-gray-300 transition" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        Entrar
+                    </button>
+                </div>
+                
+                <div class="text-sm text-center">
+                    <a href="index.html" class="font-medium text-accent hover:text-blue-500 transition">Voltar para a página inicial</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-auto py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-400 text-sm">&copy; 2026 SpecForge. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

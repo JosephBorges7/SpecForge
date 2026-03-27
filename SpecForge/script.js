@@ -22,12 +22,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const MAX_FREE_USES = 2;
     let usageCount = parseInt(localStorage.getItem('specforge_usage') || '0');
-    let isPremium = localStorage.getItem('specforge_premium') === 'true';
+    let userPlan = localStorage.getItem('specforge_plan') || (localStorage.getItem('specforge_premium') === 'true' ? 'premium' : 'free');
+    const isLogged = localStorage.getItem('isLogged') === 'true';
+
+    const loginBtnHeader = document.getElementById('loginBtnHeader');
+    if (loginBtnHeader && isLogged) {
+        loginBtnHeader.textContent = 'Dashboard';
+        loginBtnHeader.href = 'dashboard.html';
+        loginBtnHeader.classList.replace('bg-blue-50', 'bg-emerald-50');
+        loginBtnHeader.classList.replace('text-accent', 'text-emerald-600');
+    }
 
     const updateCounterDisplay = () => {
         if (!usageCounter) return;
-        if (isPremium) {
-            usageCounter.innerHTML = '<span class="text-emerald-600 flex items-center gap-1 font-bold"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> Premium Ativado</span>';
+        if (userPlan === 'premium' || userPlan === 'master') {
+            usageCounter.innerHTML = `<span class="text-emerald-600 flex items-center gap-1 font-bold"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> ${userPlan === 'master' ? 'Master' : 'Premium'} Ativado</span>`;
             usageCounter.classList.remove('text-gray-500', 'text-red-500');
         } else {
             const left = Math.max(0, MAX_FREE_USES - usageCount);
@@ -70,13 +79,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (upgradeBtn) {
         upgradeBtn.addEventListener('click', () => {
-            isPremium = true;
-            localStorage.setItem('specforge_premium', 'true');
+            localStorage.setItem('specforge_plan', 'premium');
+            userPlan = 'premium';
             updateCounterDisplay();
             closePaywall();
-            setTimeout(() => {
-                showToast();
-            }, 300);
+            
+            if (!isLogged) {
+                window.location.href = 'login.html';
+                return;
+            }
+            setTimeout(() => { showToast(); }, 300);
         });
     }
 
@@ -85,10 +97,24 @@ document.addEventListener('DOMContentLoaded', () => {
     planUpgradeBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            isPremium = true;
-            localStorage.setItem('specforge_premium', 'true');
+            
+            let planToSet = 'premium';
+            if (btn.innerText.toLowerCase().includes('master')) {
+                planToSet = 'master';
+            }
+            
+            localStorage.setItem('specforge_plan', planToSet);
+            userPlan = planToSet;
+            
+            if (!isLogged) {
+                // Redireciona para login se não estiver logado, mas salva intenção
+                window.location.href = 'login.html';
+                return;
+            }
+
             updateCounterDisplay();
             showToast();
+            closePaywall();
             btn.innerText = "Ativado ✔";
             btn.classList.remove('hover:bg-blue-600', 'hover:-translate-y-0.5', 'hover:bg-gray-50', 'text-gray-700', 'bg-accent');
             btn.classList.add('bg-emerald-500', 'text-white', 'cursor-not-allowed', 'opacity-90', 'border-emerald-500');
@@ -238,13 +264,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Paywall Check
-        if (!isPremium && usageCount >= MAX_FREE_USES) {
+        if ((!userPlan || userPlan === 'free') && usageCount >= MAX_FREE_USES) {
             openPaywall();
             return;
         }
 
         // Incrementar uso se gratuito
-        if (!isPremium) {
+        if (!userPlan || userPlan === 'free') {
             usageCount++;
             localStorage.setItem('specforge_usage', usageCount);
             updateCounterDisplay();
@@ -286,12 +312,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 </li>`;
             });
 
-            // Render Suggested Techs
-            if (outTech) {
-                outTech.innerHTML = '';
-                data.tech.forEach(t => {
-                    outTech.innerHTML += `<li class="px-3 py-1 bg-slate-800 text-blue-300 font-medium font-mono border border-slate-600 hover:border-blue-400 hover:-translate-y-0.5 transition-all cursor-default shadow-sm rounded-md">${t}</li>`;
+            // Render Suggested Techs if Premium/Master
+            const techSection = document.getElementById('techSection');
+            if (outTech && techSection) {
+                if (userPlan === 'premium' || userPlan === 'master') {
+                    techSection.classList.remove('hidden');
+                    outTech.innerHTML = '';
+                    data.tech.forEach(t => {
+                        outTech.innerHTML += `<li class="px-3 py-1 bg-slate-800 text-blue-300 font-medium font-mono border border-slate-600 hover:border-blue-400 hover:-translate-y-0.5 transition-all cursor-default shadow-sm rounded-md">${t}</li>`;
+                    });
+                } else {
+                    techSection.classList.add('hidden');
+                }
+            }
+
+            // Save history
+            if (isLogged) {
+                const historyRaw = localStorage.getItem('specHistory');
+                let historyData = [];
+                if (historyRaw) {
+                   try { historyData = JSON.parse(historyRaw); } catch(e){}
+                }
+                historyData.unshift({
+                    id: Date.now().toString(),
+                    input: text,
+                    output: data,
+                    date: new Date().toLocaleString()
                 });
+                localStorage.setItem('specHistory', JSON.stringify(historyData));
             }
 
             loading.style.display = 'none';
@@ -327,6 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetDemoBtn.addEventListener('click', () => {
             localStorage.removeItem('specforge_usage');
             localStorage.removeItem('specforge_premium');
+            localStorage.removeItem('specforge_plan');
             window.location.reload();
         });
     }

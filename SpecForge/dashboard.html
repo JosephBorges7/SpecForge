@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SpecForge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#10b981',
+                        accent: '#3b82f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="dashboard.js" defer></script>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-secondary selection:text-white min-h-screen flex flex-col hidden" id="dashboardBody">
+
+    <!-- Header -->
+    <header class="w-full bg-white shadow-sm z-50 border-b border-gray-200 sticky top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition">
+                <div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold text-xl">S</div>
+                <span class="font-bold text-xl text-primary tracking-tight">SpecForge</span>
+            </a>
+            
+            <div class="flex items-center gap-4 border-l border-gray-200 pl-4">
+                <div class="hidden sm:flex flex-col text-right">
+                    <span id="userEmailDisplay" class="text-sm font-semibold text-gray-700"></span>
+                    <span id="userPlanBadge" class="text-xs font-medium px-2 py-0.5 rounded-full mt-0.5 inline-block w-max ml-auto">Free</span>
+                </div>
+                <button id="logoutBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                    Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div class="flex flex-col md:flex-row gap-6">
+            
+            <!-- Sidebar -->
+            <aside class="w-full md:w-64 flex-shrink-0 space-y-4">
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden">
+                    <h3 class="text-xs uppercase font-bold text-gray-400 tracking-wider mb-2" id="planTitle">Meu Plano</h3>
+                    <div id="planDisplay" class="text-2xl font-extrabold text-primary mb-1">Free</div>
+                    <div id="usageStats" class="text-sm text-gray-600 mb-4">2 usos gratuitos.</div>
+                    
+                    <a href="index.html#precos" id="upgradeSidebarBtn" class="block w-full text-center py-2 px-3 rounded-lg bg-accent/10 text-accent font-semibold text-sm hover:bg-accent hover:text-white transition">
+                        Fazer upgrade agora
+                    </a>
+                </div>
+
+                <nav class="bg-white p-2 rounded-xl border border-gray-200 shadow-sm">
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 bg-gray-50 text-primary font-medium rounded-lg">
+                        <svg class="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        Meu Histórico
+                    </a>
+                    <a href="#" id="newSpecSidebarBtn" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary font-medium rounded-lg transition">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                        Nova Spec
+                    </a>
+                    
+                    <div class="h-px bg-gray-100 my-2"></div>
+                    
+                    <a href="#" id="templatesBtn" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary font-medium rounded-lg transition">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                        Templates Rápidos
+                        <span class="bg-blue-100 text-blue-700 text-[10px] px-1.5 py-0.5 rounded uppercase font-bold ml-auto">Novo</span>
+                    </a>
+                    <a href="#" id="integrationsBtn" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary font-medium rounded-lg transition">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                        Integrações
+                    </a>
+                    
+                    <div class="h-px bg-gray-100 my-2"></div>
+                    
+                    <a href="#" id="aiModelsBtn" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary font-medium rounded-lg transition">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Modelos de IA
+                    </a>
+                    <a href="#" id="teamBtn" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary font-medium rounded-lg transition">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        Minha Equipe
+                    </a>
+                    <a href="#" id="brandKitBtn" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary font-medium rounded-lg transition">
+                        <svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" /></svg>
+                        Base de Conhecimento
+                        <span class="bg-gray-100 text-gray-500 text-[9px] px-1.5 py-0.5 rounded uppercase font-bold ml-auto border border-gray-200">Beta</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Feed/History -->
+            <section class="flex-grow">
+                <!-- Generator Section -->
+                <div id="generatorSection" class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
+                    <label for="prompt" class="block text-sm font-semibold text-gray-700 mb-2">Descreva a funcionalidade que você quer criar:</label>
+                    <textarea id="prompt" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-accent focus:border-accent transition resize-none font-mono text-sm shadow-sm" placeholder="Ex: Criar sistema de login com autenticação JWT."></textarea>
+                    
+                    <div class="mt-4 flex justify-between items-center">
+                        <p id="dashUsageCounter" class="text-sm font-medium text-gray-500"></p>
+                        <button id="generateBtn" class="bg-primary hover:bg-slate-800 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-md flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                            <span>Gerar spec estruturada</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Area (Hidden by default) -->
+                <div id="resultArea" class="bg-slate-900 text-gray-300 rounded-2xl shadow-xl overflow-hidden mb-12 hidden border border-slate-800">
+                    <div id="loading" class="hidden flex-col items-center justify-center py-12">
+                        <svg class="animate-spin h-10 w-10 text-secondary mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <p class="font-mono text-secondary typing-loader">Analisando requisitos e aplicando arquitetura...</p>
+                    </div>
+                    
+                    <div id="outputContent" class="hidden p-6 md:p-8 fade-in flex-col h-full w-full">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-6 border-t border-gray-200 pt-8 mt-4">
+                    <h2 class="text-2xl font-bold text-gray-900">Histórico de Specs</h2>
+                    <div class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full border border-gray-200" id="premiumOnlyBadge">
+                        Disponível apenas no plano Premium ou Master
+                    </div>
+                </div>
+
+                <!-- Lista de Histórico -->
+                <div id="historyList" class="space-y-4">
+                    <!-- Cards de histórico aparecerão aqui via JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="hidden text-center py-16 px-4 bg-white rounded-xl border border-dashed border-gray-300">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-1">Nenhuma spec encontrada</h3>
+                    <p class="text-gray-500 mb-6">Você ainda não gerou nenhuma especificação ou não possui o plano Premium.</p>
+                    <button id="generateFirstBtn" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-primary hover:bg-slate-800 transition">
+                        Gerar a primeira
+                    </button>
+                </div>
+                
+                <!-- Freemium State (Não tem acesso ao histórico) -->
+                <div id="freemiumState" class="hidden text-center py-16 px-4 bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-200">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+                        <svg class="w-8 h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-primary mb-2">Recurso Premium</h3>
+                    <p class="text-gray-600 mb-6 max-w-md mx-auto">O histórico salvo das suas especificações está disponível apenas para assinantes.</p>
+                    <a href="index.html#precos" class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-bold rounded-lg shadow-md text-white bg-accent hover:bg-blue-600 transition">
+                        Desbloquear Histórico
+                    </a>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-auto py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
+            &copy; 2026 SpecForge. Todos os direitos reservados.
+        </div>
+    </footer>
+</body>
+</html>

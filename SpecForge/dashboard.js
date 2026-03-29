@@ -22,6 +22,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('userEmailDisplay').textContent = userEmail;
 
+    // In-App Upgrade Modal
+    window.openUpgradeModal = () => {
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-slate-900/80 z-[100] flex items-center justify-center fade-in p-4 backdrop-blur-sm overflow-y-auto';
+        
+        let premiumBtn = userPlan === 'premium' || userPlan === 'pro'
+            ? `<button disabled class="w-full py-3 bg-gray-200 text-emerald-600 font-bold rounded-xl cursor-not-allowed">Seu Plano Atual</button>` 
+            : `<button onclick="window.openCheckoutModal('pro', 49)" class="w-full py-3 bg-emerald-500 text-white font-bold rounded-xl hover:bg-emerald-600 transition shadow-lg">Começar Premium</button>`;
+        
+        modal.innerHTML = `
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl overflow-hidden animate-[pulse_0.2s_ease-out_1_forwards] my-8 relative flex flex-col md:flex-row">
+                <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-20 modal-close-btn bg-white/80 rounded-full p-1"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                
+                <!-- Premium -->
+                <div class="flex-1 p-8 md:p-10 border-b md:border-b-0 md:border-r border-gray-100 bg-gray-50 flex flex-col justify-between">
+                    <div>
+                        <div class="text-emerald-500 font-bold tracking-wider text-sm uppercase mb-2">Architect Tier</div>
+                        <h3 class="text-3xl font-extrabold text-primary mb-2">Premium</h3>
+                        <p class="text-gray-500 text-sm mb-6">Perfeito para moldar o escopo inicial e visualizar schemas relacionais completos.</p>
+                        <div class="text-4xl font-extrabold text-gray-900 mb-8">R$ 49<span class="text-lg font-medium text-gray-400">/mês</span></div>
+                        
+                        <ul class="space-y-4 mb-8 text-sm text-gray-600">
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Gerações Ilimitadas</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Histórico Completo de Specs</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Aba de Banco de Dados (Schema & DB Diagram)</li>
+                        </ul>
+                    </div>
+                    ${premiumBtn}
+                </div>
+                
+                <!-- Master -->
+                <div class="flex-1 p-8 md:p-10 bg-slate-900 text-white flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 opacity-10"><svg class="w-40 h-40 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                    
+                    <div class="relative z-10">
+                        <div class="text-accent font-bold tracking-wider text-sm uppercase mb-2 flex items-center gap-2">Engineering Elite <span class="bg-accent/20 text-accent px-2 py-0.5 rounded text-[10px]">RECOMENDADO</span></div>
+                        <h3 class="text-3xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-accent">Master Pro</h3>
+                        <p class="text-slate-400 text-sm mb-6">A suíte absoluta. Testes E2E, UI, DevOps e cálculos de esforço em milissegundos.</p>
+                        <div class="text-4xl font-extrabold mb-8">R$ 149<span class="text-lg font-medium text-slate-500">/mês</span></div>
+                        
+                        <ul class="space-y-4 mb-8 text-sm text-slate-300">
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <strong class="text-white">Tudo do Premium, e mais:</strong></li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Aba de Interface / UX (Wireframes)</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Aba Executiva de Negócios & Estimativas Ágeis</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Aba DevOps, Pipeline e Project Tree ASCII</li>
+                            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <strong class="text-white">Exportador ".cursorrules" Injetável em IDEs AI</strong></li>
+                        </ul>
+                    </div>
+                    <button onclick="window.openCheckoutModal('master', 149)" class="relative z-10 w-full py-3 bg-gradient-to-r from-purple-600 to-accent text-white font-bold rounded-xl hover:from-purple-500 hover:to-blue-400 transition shadow-xl shadow-accent/20">Desbloquear Poder Elite</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector('.modal-close-btn').addEventListener('click', () => modal.remove());
+    };
+
+    // setPlan kept for backward compatibility if needed, but using finalizeUpgrade instead
+    window.setPlan = (planName) => {
+        localStorage.setItem('specforge_plan', planName);
+        localStorage.setItem('specforge_premium', 'true');
+        window.location.reload();
+    };
+
+    // Override generic anchor links to pricing
+    document.querySelectorAll('a[href="index.html#precos"]').forEach(a => {
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            openUpgradeModal();
+        });
+    });
+
     const updatePlanUI = () => {
         const userPlanBadge = document.getElementById('userPlanBadge');
         const planDisplay = document.getElementById('planDisplay');
@@ -29,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const upgradeSidebarBtn = document.getElementById('upgradeSidebarBtn');
         const dashUsageCounter = document.getElementById('dashUsageCounter');
 
-        if (userPlan === 'master' || userPlan === 'premium') {
-            const planLabel = userPlan === 'master' ? 'Master' : 'Premium';
+        if (userPlan === 'master' || userPlan === 'premium' || userPlan === 'pro') {
+            const planLabel = userPlan === 'master' ? 'Master' : 'Pro';
             userPlanBadge.textContent = planLabel;
             planDisplay.textContent = planLabel;
             
@@ -45,9 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
             usageStats.innerHTML = '<span class="text-emerald-600 font-medium">Uso ilimitado</span>';
             if (upgradeSidebarBtn && userPlan === 'master') {
                 upgradeSidebarBtn.style.display = 'none';
-            } else if (upgradeSidebarBtn && userPlan === 'premium') {
+            } else if (upgradeSidebarBtn && (userPlan === 'premium' || userPlan === 'pro')) {
                 upgradeSidebarBtn.textContent = 'Fazer upgrade (Master)';
-                upgradeSidebarBtn.href = 'index.html#precos';
+                upgradeSidebarBtn.href = '#';
+                upgradeSidebarBtn.onclick = (e) => { e.preventDefault(); openUpgradeModal(); };
             }
             
             if (dashUsageCounter) {
@@ -180,22 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tree = `project-root/\n├── src/\n│   ├── api/\n│   │   ├── routes.ts\n│   │   └── handlers.ts\n│   ├── core/\n│   │   └── custom.entities.ts\n│   └── shared/\n│       └── utils.ts\n└── docker-compose.yml`;
         }
 
-        let result = { title, desc };
-
-        // Tier Assignment
-        if (plan === 'free') {
-            result.reqs = reqs;
-            result.ac = ac;
-            return result;
-        }
-
-        if (plan === 'premium' || plan === 'master') {
-            result.reqs = reqs;
-            result.ac = ac;
-            result.schema = schema;
-            result.mermaid = mermaid;
-            result.stack = stack;
-        }
+        let result = { title, desc, reqs, ac, schema, mermaid, stack, tests, security, infra, performance, business, ui, tree };
 
         if (plan === 'master') {
             // Requisitos avançados TDD Frontend/Backend
@@ -259,12 +316,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return `<button class="tab-btn whitespace-nowrap font-medium text-sm pb-3 border-b-2 transition-colors duration-200 ${isActive ? 'active text-accent border-accent' : 'text-gray-400 border-transparent hover:text-gray-200'}" data-target="${id}">${text}</button>`;
         };
 
+        const lockIcon = `<svg class="w-3 h-3 inline pb-0.5 opacity-70 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>`;
+        
+        const isDbLocked = userPlan === 'free';
+        const isTestLocked = userPlan === 'free' || userPlan === 'pro' || userPlan === 'premium';
+        const isInfraLocked = userPlan === 'free' || userPlan === 'pro' || userPlan === 'premium';
+        const isUiLocked = userPlan === 'free' || userPlan === 'pro' || userPlan === 'premium';
+        const isBusinessLocked = userPlan === 'free' || userPlan === 'pro' || userPlan === 'premium';
+
         let tabsHtml = createTabBtn('tab-spec', 'Especificação', true);
-        if (data.schema) tabsHtml += createTabBtn('tab-db', 'Banco de Dados', false);
-        if (data.tests) tabsHtml += createTabBtn('tab-test', 'QA / Testes', false);
-        if (data.infra) tabsHtml += createTabBtn('tab-infra', 'Infra & DevOps', false);
-        if (data.ui) tabsHtml += createTabBtn('tab-ui', 'Interface (UI/UX)', false);
-        if (data.business) tabsHtml += createTabBtn('tab-business', 'Negócios & Custos', false);
+        if (data.schema) tabsHtml += createTabBtn('tab-db', `Banco de Dados ${isDbLocked ? lockIcon : ''}`, false);
+        if (data.tests) tabsHtml += createTabBtn('tab-test', `QA / Testes ${isTestLocked ? lockIcon : ''}`, false);
+        if (data.infra) tabsHtml += createTabBtn('tab-infra', `Infra & DevOps ${isInfraLocked ? lockIcon : ''}`, false);
+        if (data.ui) tabsHtml += createTabBtn('tab-ui', `Interface (UI) ${isUiLocked ? lockIcon : ''}`, false);
+        if (data.business) tabsHtml += createTabBtn('tab-business', `Negócios ${isBusinessLocked ? lockIcon : ''}`, false);
         
         tabsNav.innerHTML = tabsHtml;
         outputContent.appendChild(tabsNav);
@@ -273,6 +338,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const tabsContainer = document.createElement('div');
         tabsContainer.id = 'tabsContainer';
         tabsContainer.className = 'flex-col space-y-6';
+
+        const getLockedHtml = (title, requiredPlan) => `
+            <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-lg border border-slate-700/50 p-6 text-center h-full">
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-2xl max-w-sm border border-slate-700 w-full animate-[pulse_0.2s_ease-out_1_forwards]">
+                    <div class="w-12 h-12 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-700 shadow-inner">
+                        <svg class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-2">Acesso Restrito: ${title}</h4>
+                    <p class="text-sm text-gray-400 mb-6">Assine o plano <strong class="text-accent">${requiredPlan}</strong> para acessar arquitetura profunda, estimativas de negócio e acelerar sua entrega.</p>
+                    <button class="w-full bg-accent hover:bg-blue-600 text-white font-bold py-2.5 rounded-lg shadow-lg transition" onclick="window.openUpgradeModal()">Abrir Planos</button>
+                </div>
+            </div>
+        `;
 
         const formatAC = (acArray) => {
              return acArray.map(ac => {
@@ -331,14 +409,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // TAB 2: DB (Pro/Master)
         if (data.schema !== undefined) {
             tabsContainer.innerHTML += `
-            <div id="tab-db" class="tab-pane hidden space-y-6">
-                <div>
-                    <h4 class="text-blue-400 font-semibold mb-3 uppercase text-sm tracking-wider flex items-center gap-2">Schema Sugerido</h4>
-                    <div class="relative group bg-slate-900 border border-slate-700 rounded-lg p-5 pt-10">
-                        ${copyBtnHtml('code-schema')}
-                        <pre id="code-schema" class="text-sm font-mono text-emerald-300 overflow-x-auto whitespace-pre-wrap">${data.schema || '-- Schema autogerado não disponivel --'}</pre>
+            <div id="tab-db" class="tab-pane hidden space-y-6 relative rounded-lg overflow-hidden min-h-[300px]">
+                ${isDbLocked ? getLockedHtml('Banco de Dados', 'Pro') : ''}
+                <div class="${isDbLocked ? 'blur-sm select-none pointer-events-none opacity-50' : ''}">
+                    <div>
+                        <h4 class="text-blue-400 font-semibold mb-3 uppercase text-sm tracking-wider flex items-center gap-2">Schema Sugerido</h4>
+                        <div class="relative group bg-slate-900 border border-slate-700 rounded-lg p-5 pt-10">
+                            ${copyBtnHtml('code-schema')}
+                            <pre id="code-schema" class="text-sm font-mono text-emerald-300 overflow-x-auto whitespace-pre-wrap">${data.schema || '-- Schema autogerado não disponivel --'}</pre>
+                        </div>
                     </div>
-                </div>
                 ${data.mermaid ? `
                 <div class="mt-6 border-t border-slate-800 pt-6">
                     <h4 class="text-blue-400 font-semibold mb-3 uppercase text-sm tracking-wider flex items-center gap-2">Diagrama de Fluxo (Mermaid.js)</h4>
@@ -348,19 +428,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
                 ` : ''}
+                </div>
             </div>`;
         }
 
         // TAB 3: TEST (Master)
         if (data.tests !== undefined) {
             tabsContainer.innerHTML += `
-            <div id="tab-test" class="tab-pane hidden space-y-6">
-                <div>
-                    <h4 class="text-purple-400 font-semibold mb-3 uppercase text-sm tracking-wider flex items-center gap-2">QA & Testes Automatizados (Cypress/Jest)</h4>
+            <div id="tab-test" class="tab-pane hidden space-y-6 relative rounded-lg overflow-hidden min-h-[200px]">
+                ${isTestLocked ? getLockedHtml('QA & Testes', 'Master') : ''}
+                <div class="${isTestLocked ? 'blur-sm select-none pointer-events-none opacity-50' : ''}">
+                    <div>
+                        <h4 class="text-purple-400 font-semibold mb-3 uppercase text-sm tracking-wider flex items-center gap-2">QA & Testes Automatizados (Cypress/Jest)</h4>
                     <div class="relative group bg-slate-900 border border-slate-700 rounded-lg p-5 pt-10">
                         ${copyBtnHtml('code-tests')}
                         <pre id="code-tests" class="text-sm font-mono text-purple-300 overflow-x-auto whitespace-pre-wrap">${data.tests || '// Stubs não gerados.'}</pre>
                     </div>
+                </div>
                 </div>
             </div>`;
         }
@@ -368,8 +452,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // TAB 4: INFRA (Master)
         if (data.infra !== undefined) {
             tabsContainer.innerHTML += `
-            <div id="tab-infra" class="tab-pane hidden space-y-6">
-                ${data.security ? `
+            <div id="tab-infra" class="tab-pane hidden space-y-6 relative rounded-lg overflow-hidden min-h-[300px]">
+                ${isInfraLocked ? getLockedHtml('Infra & DevOps', 'Master') : ''}
+                <div class="${isInfraLocked ? 'blur-sm select-none pointer-events-none opacity-50' : ''}">
+                    ${data.security ? `
                 <div class="bg-red-900/10 border border-red-900/30 p-5 rounded-lg">
                     <h4 class="text-red-400 font-semibold mb-2 uppercase text-sm tracking-wider flex items-center gap-2">Riscos e Segurança (Security First)</h4>
                     <p class="text-sm text-gray-300 leading-relaxed">${data.security}</p>
@@ -400,19 +486,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="text-sm text-gray-300 leading-relaxed">${data.performance}</p>
                 </div>
                 ` : ''}
+                </div>
             </div>`;
         }
 
         // TAB 5: UI (Master)
         if (data.ui !== undefined) {
             tabsContainer.innerHTML += `
-            <div id="tab-ui" class="tab-pane hidden space-y-6">
-                <div>
-                    <h4 class="text-pink-400 font-semibold mb-3 uppercase text-sm tracking-wider flex items-center gap-2">Wireframing Clássico (HTML/Tailwind)</h4>
+            <div id="tab-ui" class="tab-pane hidden space-y-6 relative rounded-lg overflow-hidden min-h-[200px]">
+                ${isUiLocked ? getLockedHtml('Interface (UI)', 'Master') : ''}
+                <div class="${isUiLocked ? 'blur-sm select-none pointer-events-none opacity-50' : ''}">
+                    <div>
+                        <h4 class="text-pink-400 font-semibold mb-3 uppercase text-sm tracking-wider flex items-center gap-2">Wireframing Clássico (HTML/Tailwind)</h4>
                     <div class="relative group bg-slate-900 border border-slate-700 rounded-lg p-5 pt-10">
                         ${copyBtnHtml('code-ui')}
                         <pre id="code-ui" class="text-sm font-mono text-pink-300 overflow-x-auto whitespace-pre-wrap">${data.ui.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
                     </div>
+                </div>
                 </div>
             </div>`;
         }
@@ -421,11 +511,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.business !== undefined) {
             const htmlBusiness = data.business.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').split('\\n').map(l => l.trim()).filter(l=>l).map(line => `<p class="text-gray-300 text-sm mb-2 leading-relaxed flex gap-2 items-center"><svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> <span>${line}</span></p>`).join('');
             tabsContainer.innerHTML += `
-            <div id="tab-business" class="tab-pane hidden space-y-6">
-                <div class="bg-slate-800 border border-slate-700 p-8 rounded-xl relative overflow-hidden">
+            <div id="tab-business" class="tab-pane hidden space-y-6 relative rounded-lg overflow-hidden min-h-[200px]">
+                ${isBusinessLocked ? getLockedHtml('Negócios & Custos', 'Master') : ''}
+                <div class="${isBusinessLocked ? 'blur-sm select-none pointer-events-none opacity-50' : ''}">
+                    <div class="bg-slate-800 border border-slate-700 p-8 rounded-xl relative overflow-hidden">
                     <div class="absolute -right-4 -top-4 opacity-5"><svg class="w-40 h-40 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg></div>
                     <h4 class="text-emerald-400 font-bold mb-6 uppercase text-sm tracking-wider flex items-center gap-2">Esforço Operacional (Estimativas)</h4>
                     ${htmlBusiness}
+                </div>
                 </div>
             </div>`;
         }
@@ -573,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (userPlan === 'free' && usageCount >= MAX_FREE_USES) {
-            window.location.href = 'index.html#precos'; 
+            openUpgradeModal(); 
             return;
         }
 

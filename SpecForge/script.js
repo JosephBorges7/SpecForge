@@ -79,16 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (upgradeBtn) {
         upgradeBtn.addEventListener('click', () => {
-            localStorage.setItem('specforge_plan', 'premium');
-            userPlan = 'premium';
-            updateCounterDisplay();
             closePaywall();
-            
-            if (!isLogged) {
-                window.location.href = 'login.html';
-                return;
+            if (window.openCheckoutModal) {
+                window.openCheckoutModal('pro', 49);
             }
-            setTimeout(() => { showToast(); }, 300);
         });
     }
 
@@ -98,26 +92,19 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             
-            let planToSet = 'premium';
+            let planToSet = 'pro';
+            let planPrice = 49;
             if (btn.innerText.toLowerCase().includes('master')) {
                 planToSet = 'master';
+                planPrice = 149;
             }
             
-            localStorage.setItem('specforge_plan', planToSet);
-            userPlan = planToSet;
-            
-            if (!isLogged) {
-                // Redireciona para login se não estiver logado, mas salva intenção
-                window.location.href = 'login.html';
-                return;
-            }
-
-            updateCounterDisplay();
-            showToast();
             closePaywall();
-            btn.innerText = "Ativado ✔";
-            btn.classList.remove('hover:bg-blue-600', 'hover:-translate-y-0.5', 'hover:bg-gray-50', 'text-gray-700', 'bg-accent');
-            btn.classList.add('bg-emerald-500', 'text-white', 'cursor-not-allowed', 'opacity-90', 'border-emerald-500');
+            if (window.openCheckoutModal) {
+                window.openCheckoutModal(planToSet, planPrice);
+            } else {
+                console.error("checkout.js is missing");
+            }
         });
     });
 
@@ -312,17 +299,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 </li>`;
             });
 
-            // Render Suggested Techs if Premium/Master
+            // Render Suggested Techs with Lock Overlay for Free
             const techSection = document.getElementById('techSection');
             if (outTech && techSection) {
-                if (userPlan === 'premium' || userPlan === 'master') {
-                    techSection.classList.remove('hidden');
-                    outTech.innerHTML = '';
-                    data.tech.forEach(t => {
-                        outTech.innerHTML += `<li class="px-3 py-1 bg-slate-800 text-blue-300 font-medium font-mono border border-slate-600 hover:border-blue-400 hover:-translate-y-0.5 transition-all cursor-default shadow-sm rounded-md">${t}</li>`;
-                    });
-                } else {
-                    techSection.classList.add('hidden');
+                outTech.innerHTML = '';
+                data.tech.forEach(t => {
+                    outTech.innerHTML += `<li class="px-3 py-1 bg-slate-800 text-blue-300 font-medium font-mono border border-slate-600 cursor-default shadow-sm rounded-md">${t}</li>`;
+                });
+                
+                techSection.classList.remove('hidden');
+                outTech.classList.remove('blur-sm', 'select-none', 'pointer-events-none', 'opacity-50');
+                const existingOverlay = techSection.querySelector('.lock-overlay');
+                if (existingOverlay) existingOverlay.remove();
+                
+                const isTechLocked = userPlan === 'free';
+                if (isTechLocked) {
+                    outTech.classList.add('blur-sm', 'select-none', 'pointer-events-none', 'opacity-50');
+                    const overlay = document.createElement('div');
+                    overlay.className = 'lock-overlay absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:bg-slate-900/50 transition';
+                    overlay.innerHTML = `<div class="bg-slate-800 px-4 py-2 rounded-full shadow-lg border border-slate-600 flex items-center gap-2 text-sm font-bold text-white"><svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg> Ver Arquitetura no Plano Pro</div>`;
+                    overlay.onclick = () => { openPaywall(); };
+                    techSection.style.position = 'relative';
+                    techSection.appendChild(overlay);
                 }
             }
 
